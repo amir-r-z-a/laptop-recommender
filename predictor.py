@@ -57,8 +57,8 @@ def turn_into_input(cpu, ram, ssd, graphic_ram, screen_size, stock_status, hdd, 
     final_data[0] = ram
     final_data[1] = ssd
     final_data[2] = graphic_ram
-    final_data[4] = hdd
     final_data[3] = screen_size
+    final_data[4] = hdd
     CPU_INDEX = column_index((X_train), [cpu])
     final_data[CPU_INDEX] = 1
     SS_INDEX = column_index((X_train), [stock_status])
@@ -70,8 +70,10 @@ def turn_into_input(cpu, ram, ssd, graphic_ram, screen_size, stock_status, hdd, 
 
 def find_my_best_match(point, features):
     targets = []
-    i = 0
+    i = 1
     for x in np.asarray(features):
+        print(f"point: {point}")
+        print(f"X : {x}")
         num = cosine_similarity(np.asarray(point), [np.asarray(x)])
         targets.append((i, abs(num)))
         i = i + 1

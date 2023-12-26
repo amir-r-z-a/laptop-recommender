@@ -21,6 +21,7 @@ async def get_recommendation(
     hdd: str | None = None,
     company: str | None = None
 ):
+    print(f"{cpu=} {ram=} {ssd=} {graphic_ram=} {screen_size=} {hdd=} {company=}")
 
     matches, df = predictor.find_matches(
         cpu=cpu, ram=ram, ssd=ssd,
@@ -35,18 +36,22 @@ async def get_recommendation(
     def extract(match):
             print(f"match {match[0]} start")
             image_url = extractimg.get_image_urls(match[1]['redirect_urls'])
+            print(match)
+            redir_url = match[1]['redirect_urls']
+            print("----------------------------")
+            print(f"{redir_url=}")
+            print(f"{image_url=}")
             cursor = connection.cursor()
             cursor.execute(f'''
             UPDATE laptops
             SET image_url = '{image_url}'
-            WHERE id = {match[0]}
+            WHERE redirect_url = '{redir_url}'
             ''')
             connection.commit()
             cursor.close()
             print(f"match {match[0]} done")
-    with ThreadPoolExecutor(max_workers=1) as p:
-        print("created threadpool")
-        _ = list(p.map(extract, list(df.iloc[matches].iterrows())))
+    print(df.head()) 
+    [extract(row) for row in list(df.iloc[matches].iterrows())]
         
     sum_price = []
     for match in df["price"]:
