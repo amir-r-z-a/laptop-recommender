@@ -2,7 +2,7 @@
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.model_selection import learning_curve, cross_val_score
 from sklearn.preprocessing import PolynomialFeatures
-from xgboost import XGBRegressor
+#from xgboost import XGBRegressor
 from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import ElasticNet
