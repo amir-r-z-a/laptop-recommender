@@ -48,12 +48,19 @@ async def get_recommendation(
         print("created threadpool")
         _ = list(p.map(extract, list(df.iloc[matches].iterrows())))
         
-        
-    
+    sum_price = []
+    for match in df["price"]:
+        try:
+            sum_price.append(int(match))
+        except:
+            pass
+    expected_price = int(sum(sum_price) / len(sum_price))
+    #rint(sum_price)
 
     result = {
         'success': True,
         'result': matches,
+       # 'expceted_price': expected_price,
     }
 
     return result
