@@ -30,12 +30,15 @@ async def get_recommendation(
         hdd=hdd, company=company,
     )
     matches = list(map(lambda x: x[0], matches[:5]))
-    
+
     print(df)
-    
+
     def extract(match):
             print(f"match {match[0]} start")
-            image_url = extractimg.get_image_urls(match[1]['redirect_urls'])
+            if 'digikala.com' in match[1]['redirect_urls']:
+                image_url = 'https://img.freepik.com/free-vector/screen-tv-mockup_1053-198.jpg'
+            else:
+                image_url = extractimg.get_image_urls(match[1]['redirect_urls'])
             print(match)
             redir_url = match[1]['redirect_urls']
             print("----------------------------")
@@ -50,9 +53,9 @@ async def get_recommendation(
             connection.commit()
             cursor.close()
             print(f"match {match[0]} done")
-    print(df.head()) 
+    print(df.head())
     [extract(row) for row in list(df.iloc[matches].iterrows())]
-        
+
     sum_price = []
     for match in df["price"]:
         try:
